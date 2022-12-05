@@ -16,7 +16,6 @@ namespace PresaleApi.Controllers
         private readonly INearByRepository _NearByRepository;
         private readonly IMapper _mapper;
         private Guid userId = new System.Guid("5F099914-63A7-458A-A29F-FC0EF9FC3311");
-
         public NearByController(INearByRepository NearByRepository, IMapper mapper)
         {
             this._NearByRepository = NearByRepository;
