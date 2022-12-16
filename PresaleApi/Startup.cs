@@ -66,6 +66,18 @@ namespace PresaleApi
                     // Automatic registration of validators in assembly
                     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
                 });
+
+            // Named Policy
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    name: "AllowOrigin",
+                    builder => {
+                        builder.AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +90,8 @@ namespace PresaleApi
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthorization(); 
+            app.UseCors("AllowOrigin");
 
             app.UseEndpoints(endpoints =>
             {
