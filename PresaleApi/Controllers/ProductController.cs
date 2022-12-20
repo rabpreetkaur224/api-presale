@@ -7,9 +7,12 @@ using PresaleApi.Repository;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 
 namespace PresaleApi.Controllers
 {
+    [EnableCors("AllowOrigin")]
+
     public class ProductController : Controller
     {
         private readonly IProductRepository _ProductRepository;

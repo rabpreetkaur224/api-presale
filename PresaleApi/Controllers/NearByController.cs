@@ -8,9 +8,11 @@ using System;
 using PresaleApi.DataBaseEntity;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 namespace PresaleApi.Controllers
 {
+    [EnableCors("AllowOrigin")]
     public class NearByController : Controller
     {
         private readonly INearByRepository _NearByRepository;

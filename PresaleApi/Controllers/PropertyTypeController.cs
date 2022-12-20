@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PresaleApi.DataBaseEntity;
@@ -11,6 +12,7 @@ using System.Linq;
 
 namespace PresaleApi.Controllers
 {
+    [EnableCors("AllowOrigin")]
     public class PropertyTypeController : Controller
     {
         private readonly IPropertyTypeRepository _PropertyTypeRepository;

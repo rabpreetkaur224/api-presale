@@ -10,9 +10,11 @@ using System.IO;
 using PresaleApi.DataBaseEntity;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Cors;
 
 namespace PresaleApi.Controllers
 {
+    [EnableCors("AllowOrigin")]
     public class TestimonialController : Controller
     {
         private ITestimonialRepository _environment;

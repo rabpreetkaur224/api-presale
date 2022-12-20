@@ -16,14 +16,12 @@ namespace PresaleApi.Repository
             ApplicationResponse returnobj = new ApplicationResponse();
             if (model.FeatureId > 0)
             {
-
-                _dbContext.Add(model);
+                _dbContext.Update(model);
                 _dbContext.SaveChanges();
             }
             else
             {
-
-                _dbContext.Update(model);
+                _dbContext.Add(model);
                 _dbContext.SaveChanges();
             }
             returnobj.Success = true;
