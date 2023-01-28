@@ -3,10 +3,12 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PresaleApi.Repository;
@@ -14,6 +16,7 @@ using PresaleApi.Validation;
 using PresaleApi.Validator;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -43,7 +46,19 @@ namespace PresaleApi
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ITestimonialRepository, TestimonialRepository>();
-
+            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IStudentsRepository, StudentsRepository>();
+            services.AddTransient<IStateRepository, StateRepository>();
+            services.AddTransient<ITeachersRepository, TeachersRepository>();
+            services.AddTransient<ISubjectRepository, SubjectRepository>();
+            services.AddTransient<IWorkersRepository, WorkersRepository>();
+            services.AddTransient<IStatesRepository, StatesRepository>();
+            services.AddTransient<IProductInquiryRepository, ProductInquiryRepository>();
+            services.AddTransient<IContactUsRepository, ContactUsRepository>();
+            services.AddTransient<IImageDumpRepository, ImageDumpRepository>();
+            services.AddTransient<ICmsRepository, CmsRepository>();
+            services.AddTransient<ICommonRepository, CommonRepository>();
             #endregion
             #region Validator Registraytions
             services.AddValidatorsFromAssemblyContaining<FeatureValidator>();
@@ -52,6 +67,19 @@ namespace PresaleApi
             services.AddValidatorsFromAssemblyContaining<NearByValidator>();
             services.AddValidatorsFromAssemblyContaining<ProductValidator>();
             services.AddValidatorsFromAssemblyContaining<CategoryValidator>();
+            services.AddValidatorsFromAssemblyContaining<DepartmentValidator>();
+            services.AddValidatorsFromAssemblyContaining<EmployeeValidator>();
+            services.AddValidatorsFromAssemblyContaining<StudentsValidator>();
+            services.AddValidatorsFromAssemblyContaining<StateValidator>();
+            services.AddValidatorsFromAssemblyContaining<TeachersValidator>();
+            services.AddValidatorsFromAssemblyContaining<SubjectValidator>();
+            services.AddValidatorsFromAssemblyContaining<WorkersValidator>();
+            services.AddValidatorsFromAssemblyContaining<StatesValidator>();
+            services.AddValidatorsFromAssemblyContaining<ProductInquiryValidator>();
+            services.AddValidatorsFromAssemblyContaining<ProductInquiryValidator>();
+            services.AddValidatorsFromAssemblyContaining<ContactUsValidator>();
+            services.AddValidatorsFromAssemblyContaining<ImageDumpValidator>();
+            services.AddValidatorsFromAssemblyContaining<CmsValidator>();
             #endregion
 
 
@@ -92,7 +120,12 @@ namespace PresaleApi
 
             app.UseAuthorization(); 
             app.UseCors("AllowOrigin");
-
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"public")),
+                RequestPath = new PathString("/public")
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

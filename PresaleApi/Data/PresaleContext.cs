@@ -27,7 +27,9 @@ namespace PresaleApi
         public virtual DbSet<CompletionYear> CompletionYear { get; set; }
         public virtual DbSet<ConstructionType> ConstructionType { get; set; }
         public virtual DbSet<ContactUs> ContactUs { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Developer> Developer { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Feature> Feature { get; set; }
         public virtual DbSet<ImageDump> ImageDump { get; set; }
         public virtual DbSet<Location> Location { get; set; }
@@ -53,17 +55,25 @@ namespace PresaleApi
         public virtual DbSet<ProductPropertyTypeMappingView> ProductPropertyTypeMappingView { get; set; }
         public virtual DbSet<ProductRelatedMapping> ProductRelatedMapping { get; set; }
         public virtual DbSet<PropertyType> PropertyType { get; set; }
+        public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<Students> Students { get; set; }
         public virtual DbSet<SubLocation> SubLocation { get; set; }
+        public virtual DbSet<Subject> Subject { get; set; }
+        public virtual DbSet<TeacherView> TeacherView { get; set; }
+        public virtual DbSet<Teachers> Teachers { get; set; }
         public virtual DbSet<Testimonial> Testimonial { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ViewUrl> ViewUrl { get; set; }
+        public virtual DbSet<Workers> Workers { get; set; }
+        public virtual DbSet<States> States { get; set; }
+        public virtual DbSet<WorkersView> WorkersView { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-VF6GA3A;Database=Presale;Trusted_Connection=True;User Id=sa;pwd=123456");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-VF6GA3A;Database=Presale;User ID=sa;Password=123456;Trusted_Connection=True");
             }
         }
 
@@ -185,6 +195,15 @@ namespace PresaleApi
                     .HasMaxLength(100);
             });
 
+            modelBuilder.Entity<Department>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Developer>(entity =>
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -194,6 +213,26 @@ namespace PresaleApi
                     .HasMaxLength(500);
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Gender).HasMaxLength(6);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Feature>(entity =>
@@ -503,6 +542,37 @@ namespace PresaleApi
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<State>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Students>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(210)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(210)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Subject)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<SubLocation>(entity =>
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -518,6 +588,118 @@ namespace PresaleApi
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__SubLocati__Locat__65370702");
+            });
+
+            modelBuilder.Entity<Subject>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TeacherView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("TeacherView");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SubjectIds)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Workers>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StateIds)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
+            });
+            modelBuilder.Entity<States>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<WorkersView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("WorkersView");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StateIds)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Teachers>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SubjectIds)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateOn).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Testimonial>(entity =>
